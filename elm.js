@@ -5478,11 +5478,7 @@ var $author$project$Main$subscriptions = function (_v0) {
 	return $elm$core$Platform$Sub$none;
 };
 var $author$project$Main$AddTask = {$: 'AddTask'};
-var $author$project$Main$ChagedInputText = function (a) {
-	return {$: 'ChagedInputText', a: a};
-};
-var $author$project$Main$ChangeVisibility = {$: 'ChangeVisibility'};
-var $author$project$Main$DeleteDoneTasks = {$: 'DeleteDoneTasks'};
+var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -5490,13 +5486,6 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
-var $elm$html$Html$Attributes$autocomplete = function (bool) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'autocomplete',
-		bool ? 'on' : 'off');
-};
-var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $author$project$Main$EditMode = F2(
 	function (a, b) {
@@ -5538,7 +5527,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 };
 var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
 var $author$project$Main$checkbox = function (task) {
-	var message = $author$project$Main$Select(task.id);
 	return A2(
 		$elm$html$Html$input,
 		_List_fromArray(
@@ -5749,8 +5737,89 @@ var $author$project$Main$displayTask = function (task) {
 					]))
 			]));
 };
+var $author$project$Main$ChangeVisibility = {$: 'ChangeVisibility'};
+var $author$project$Main$DeleteDoneTasks = {$: 'DeleteDoneTasks'};
+var $author$project$Main$dropDownMenu = function (doneTasksVisibility) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('done'),
+				$elm$html$Html$Events$onClick($author$project$Main$ChangeVisibility)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$label,
+				_List_Nil,
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Done')
+					])),
+				A2(
+				$elm$html$Html$img,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$src('checkmark.png'),
+						$elm$html$Html$Attributes$width(30),
+						$elm$html$Html$Attributes$height(30)
+					]),
+				_List_Nil),
+				A2(
+				$elm$html$Html$img,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$src('bin.png'),
+						$elm$html$Html$Attributes$width(30),
+						$elm$html$Html$Attributes$height(30),
+						$elm$html$Html$Events$onClick($author$project$Main$DeleteDoneTasks)
+					]),
+				_List_Nil),
+				doneTasksVisibility ? A2(
+				$elm$html$Html$img,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$src('up.png'),
+						$elm$html$Html$Attributes$width(30),
+						$elm$html$Html$Attributes$height(30)
+					]),
+				_List_Nil) : A2(
+				$elm$html$Html$img,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$src('down.png'),
+						$elm$html$Html$Attributes$width(30),
+						$elm$html$Html$Attributes$height(30)
+					]),
+				_List_Nil)
+			]));
+};
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $author$project$Main$ChagedInputText = function (a) {
+	return {$: 'ChagedInputText', a: a};
+};
+var $elm$html$Html$Attributes$autocomplete = function (bool) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'autocomplete',
+		bool ? 'on' : 'off');
+};
 var $elm$html$Html$Attributes$placeholder = $elm$html$Html$Attributes$stringProperty('placeholder');
+var $author$project$Main$taskInputField = function (inputFieldText) {
+	return A2(
+		$elm$html$Html$input,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$placeholder('What\'s the Plan for Today'),
+				$author$project$Main$onEnter($author$project$Main$AddTask),
+				$elm$html$Html$Attributes$autocomplete(false),
+				$elm$html$Html$Attributes$value(inputFieldText),
+				$elm$html$Html$Attributes$class('todo-input'),
+				$elm$html$Html$Attributes$id('iField'),
+				$elm$html$Html$Events$onInput($author$project$Main$ChagedInputText)
+			]),
+		_List_Nil);
+};
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -5778,19 +5847,7 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A2(
-						$elm$html$Html$input,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$placeholder('What\'s the Plan for Today'),
-								$author$project$Main$onEnter($author$project$Main$AddTask),
-								$elm$html$Html$Attributes$autocomplete(false),
-								$elm$html$Html$Attributes$value(model.inputFieldText),
-								$elm$html$Html$Attributes$class('todo-input'),
-								$elm$html$Html$Attributes$id('iField'),
-								$elm$html$Html$Events$onInput($author$project$Main$ChagedInputText)
-							]),
-						_List_Nil),
+						$author$project$Main$taskInputField(model.inputFieldText),
 						A2(
 						$elm$html$Html$button,
 						_List_fromArray(
@@ -5825,60 +5882,7 @@ var $author$project$Main$view = function (model) {
 							function (todoTask) {
 								return todoTask.done;
 							},
-							model.tasks)) > 0) ? A2(
-						$elm$html$Html$div,
-						_List_fromArray(
-							[
-								$elm$html$Html$Attributes$class('done'),
-								$elm$html$Html$Events$onClick($author$project$Main$ChangeVisibility),
-								$elm$html$Html$Events$onDoubleClick($author$project$Main$Nop)
-							]),
-						_List_fromArray(
-							[
-								A2(
-								$elm$html$Html$label,
-								_List_Nil,
-								_List_fromArray(
-									[
-										$elm$html$Html$text('Done')
-									])),
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('checkmark.png'),
-										$elm$html$Html$Attributes$width(30),
-										$elm$html$Html$Attributes$height(30)
-									]),
-								_List_Nil),
-								A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('bin.png'),
-										$elm$html$Html$Attributes$width(30),
-										$elm$html$Html$Attributes$height(30),
-										$elm$html$Html$Events$onClick($author$project$Main$DeleteDoneTasks)
-									]),
-								_List_Nil),
-								model.doneTasksVisibility ? A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('up.png'),
-										$elm$html$Html$Attributes$width(30),
-										$elm$html$Html$Attributes$height(30)
-									]),
-								_List_Nil) : A2(
-								$elm$html$Html$img,
-								_List_fromArray(
-									[
-										$elm$html$Html$Attributes$src('down.png'),
-										$elm$html$Html$Attributes$width(30),
-										$elm$html$Html$Attributes$height(30)
-									]),
-								_List_Nil)
-							])) : A2($elm$html$Html$label, _List_Nil, _List_Nil),
+							model.tasks)) > 0) ? $author$project$Main$dropDownMenu(model.doneTasksVisibility) : A2($elm$html$Html$label, _List_Nil, _List_Nil),
 						model.doneTasksVisibility ? A2(
 						$elm$html$Html$div,
 						_List_fromArray(
